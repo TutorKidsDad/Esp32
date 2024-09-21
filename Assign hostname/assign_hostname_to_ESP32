@@ -1,0 +1,40 @@
+#if defined(ESP32)
+  #include <WiFi.h>
+  const char* boardType = "ESP32";
+#elif defined(ESP8266)
+  #include <ESP8266WiFi.h>
+  const char* boardType = "ESP8266";
+#else
+  #error "Unsupported board!"
+#endif
+
+const char* ssid = "your_SSID";         // Replace with your WiFi SSID
+const char* password = "your_PASSWORD"; // Replace with your WiFi password
+const char* hostname = "YourDeviceName"; // Replace with your desired hostname
+
+void setup() {
+  Serial.begin(115200);
+  
+  // Set the hostname
+  WiFi.setHostname(hostname);
+  
+  // Connect to WiFi
+  WiFi.begin(ssid, password);
+  
+  Serial.print("Connecting to WiFi");
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  
+  Serial.println();
+  Serial.println("Connected to WiFi!");
+  Serial.print("Device Type: ");
+  Serial.println(boardType);
+  Serial.print("Device IP Address: ");
+  Serial.println(WiFi.localIP());
+}
+
+void loop() {
+  // Your code here
+}
