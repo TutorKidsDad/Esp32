@@ -4,8 +4,8 @@
 #include <esp_sleep.h> // Include for deep sleep functionality
 
 // Replace with your network credentials
-const char* ssid = "swapnil2@4";
-const char* password = "TPS@462016";
+const char* ssid = "";
+const char* password = "";
 
 // Define the current firmware version of your ESP32
 const String currentVersion = "v1.0.0";
