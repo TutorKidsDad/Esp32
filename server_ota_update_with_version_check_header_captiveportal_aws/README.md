@@ -84,10 +84,10 @@ To set up OTA updates:
 ### Pin Definitions
 Pin configuration is handled in the `pins.h` file:
 
-```cpp
-#define DHTPIN 14    // Pin for DHT11 data
-#define SCL 22       // I2C clock pin
-#define SDA 21       // I2C data pin
+
+#define DHTPIN 14    // Pin for DHT11 data
+#define SCL 22       // I2C clock pin
+#define SDA 21       // I2C data pin
 #define ANALOG_PIN 34 // Pin for analog sensor
 
 ## Code Overview
@@ -111,8 +111,8 @@ Pin configuration is handled in the `pins.h` file:
 ## Hardware Setup
 - Connect the DHT11 sensor's data pin to **pin 14** on the ESP32.
 - Connect the I2C LCD Display:
-  - **SCL** to **pin 22**.
-  - **SDA** to **pin 21**.
+  - **SCL** to **pin 22**.
+  - **SDA** to **pin 21**.
 - Connect the analog sensor to **pin 34**.
 
 ## Installation
@@ -124,4 +124,3 @@ Pin configuration is handled in the `pins.h` file:
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
