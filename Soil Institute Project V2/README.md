@@ -1,5 +1,5 @@
 # soil-institute-contactless-sensor-V2
-Soil institute contactless sensor V2 where OTA is implimented via server and version check 
+Soil institute contactless sensor V2 where OTA is implimented via server and version check -
 this is not yet implimented
 Overview of the Program edited on 23rd sept 2024
 
