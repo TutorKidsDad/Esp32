@@ -1,0 +1,1 @@
+4) Inside the data folder is where you should put the files you want to save into the ESP32 filesystem. As an example, create a .txt file with some text called test_example.
