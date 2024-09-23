@@ -1,7 +1,7 @@
 # soil-institute-contactless-sensor-V2
-Soil institute contactless sensor V2 where OTA is implimented via server and version check 
+Soil institute contactless sensor V2 where OTA is implimented via server and version check -
 this is not yet implimented
-Overview of the Program edited on 20th sept 2024
+Overview of the Program edited on 23rd sept 2024
 
 This program is designed for an ESP32-based IoT system that gathers sensor data, displays it on an LCD, and communicates with a cloud service like ThingSpeak for data logging. It also implements Over-the-Air (OTA) updates, power management via deep sleep, and uses multiple peripherals including LEDs, a buzzer, and I2C sensors like AHT10/AHT20 (for temperature and humidity) and TCS34725 (for color sensing).
 Key Features and Components
