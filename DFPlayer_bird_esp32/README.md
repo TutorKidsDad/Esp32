@@ -1,3 +1,4 @@
+# NOT YET TESTED WITH HARDWARE
 # Motion-Triggered Audio Playback using ESP32 and DFPlayer Mini
 
 ## Overview
