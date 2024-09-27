@@ -1,78 +1,68 @@
-# NOT YET TESTED WITH HARDWARE
-# Motion-Triggered Audio Playback using ESP32 and DFPlayer Mini
+# Motion-Activated Audio Playback with Potentiometer Control
 
 ## Overview
-
-This project implements a motion-triggered audio playback system using an ESP32 microcontroller, a PIR motion sensor, an LED, and a DFPlayer Mini MP3 module. When the motion sensor detects movement, a random audio file is played from the DFPlayer Mini, and an LED lights up during the playback. The playback lasts for 15 seconds, after which the audio stops and the LED turns off.
+This project uses an ESP32 microcontroller, a motion sensor, an LED, and a DFPlayer Mini module to create a motion-activated audio playback system. The playback duration is adjustable via a potentiometer, allowing you to set how long the audio plays when motion is detected.
 
 ## Components
-- **ESP32**: The main microcontroller handling motion detection and audio playback control.
-- **PIR Motion Sensor**: Detects motion to trigger the audio playback.
-- **DFPlayer Mini**: MP3 player module to play audio files stored on an SD card.
-- **LED**: Indicates motion detection and audio playback.
-- **SoftwareSerial**: Used for serial communication with the DFPlayer Mini.
-- **SD Card**: Stores the audio files for playback.
+- **ESP32**: Main microcontroller
+- **DFPlayer Mini**: Audio playback module
+- **Motion Sensor**: Detects motion
+- **LED**: Indicates motion detection
+- **Potentiometer**: Controls playback duration
+- **Speaker**: For audio output
 
-## Features
-- Plays a random audio file from the DFPlayer Mini when motion is detected.
-- Stops playback after 15 seconds.
-- Uses an LED to indicate motion detection and audio playback status.
-- Automatically handles DFPlayer Mini errors (e.g., if the SD card is not found).
+## Wiring Diagram
+- **Motion Sensor**: Connect to GPIO 27
+- **LED**: Connect to GPIO 2
+- **Potentiometer**: Connect middle pin to GPIO 34, one side to GND, the other to VCC (3.3V)
+- **DFPlayer Mini**:
+  - RX to GPIO 16
+  - TX to GPIO 17
+  - Connect speaker and power according to the DFPlayer Mini specifications
 
-## Wiring
-- **DFPlayer Mini to ESP32:**
-  - DFPlayer **RX** -> ESP32 **GPIO 17** (TX)
-  - DFPlayer **TX** -> ESP32 **GPIO 16** (RX)
-- **PIR Motion Sensor**: Connect to **GPIO 27** on the ESP32.
-- **LED**: Connect to **GPIO 2** on the ESP32.
-- **SD Card**: Insert into the DFPlayer Mini.
+Wiring
+  -Potentiometer: Connect one side to GND, the other to VCC (3.3V), and the middle pin (wiper) to an analog pin, e.g., 34.
+Pin Connections
+Component	ESP32 Pin	Notes
+Motion Sensor	GPIO 27	Connect VCC to 3.3V, GND to GND
+LED	GPIO 2	Connect the anode to GPIO 2, cathode to GND (use a resistor if necessary)
+Potentiometer	GPIO 34	Middle pin to GPIO 34, one side to GND, other side to 3.3V
+DFPlayer Mini	RX	GPIO 16 (connect to TX of DFPlayer)
+	TX	GPIO 17 (connect to RX of DFPlayer)
+	VCC	Connect to 5V power supply
+	GND	Connect to GND
+Speaker	Speaker	Connect according to DFPlayer specs
+## Code Explanation
+The code initializes the motion sensor and DFPlayer Mini. When motion is detected, it plays a random audio file for a duration determined by the potentiometer setting.
 
-## Code Breakdown
-
-### Global Variables:
-- **motionPin**: Pin for the motion sensor (GPIO 27).
-- **led**: Pin for the LED (GPIO 2).
-- **playbackDuration**: Playback duration of 15 seconds.
-- **state**: Tracks whether motion is detected (`HIGH` or `LOW`).
-- **val**: Stores the current reading of the motion sensor.
-- **playbackStartMillis**: Stores the timestamp when playback starts.
-- **isPlaying**: Boolean flag to track if audio is currently playing.
-
-### `setup()`:
-- Initializes the motion sensor, LED, serial communication, and DFPlayer Mini.
-- Sets the volume level and equalizer mode for the DFPlayer Mini.
-- Displays error messages if DFPlayer Mini initialization fails.
-
-### `loop()`:
-- Continuously checks for motion sensor input.
-- If motion is detected:
-  - Turns on the LED.
-  - Plays a random audio file if no previous motion was detected.
-  - Tracks playback time and stops the audio after 15 seconds.
-- If no motion is detected, turns off the LED and resets the state.
-
-### `playRandomFile()`:
-- Reads the number of audio files on the SD card.
-- Selects and plays a random file.
-- Displays error messages if the SD card or file count cannot be read.
-
-## How It Works
-1. The motion sensor continuously monitors for movement.
-2. When movement is detected:
-   - The LED turns on.
-   - A random audio file is played from the DFPlayer Mini for 15 seconds.
-3. After 15 seconds of playback, the audio stops and the LED turns off.
-4. The system resets to detect the next motion event.
-
-## Requirements
-- Arduino IDE with ESP32 board support.
-- **DFRobotDFPlayerMini** library installed from the Library Manager.
+### Key Functions
+- **`setup()`**: Initializes pins and sets up the DFPlayer Mini.
+- **`loop()`**: Continuously checks for motion detection and handles playback logic.
+- **`playRandomFile()`**: Plays a random audio file from the SD card.
+- **`readPotentiometer()`**: Reads the potentiometer value and maps it to a playback duration (1 to 30 seconds).
 
 ## Installation
-1. Connect the hardware as described in the wiring section.
-2. Load the code onto the ESP32 using the Arduino IDE.
-3. Ensure the SD card in the DFPlayer Mini has audio files stored.
+1. Connect all components as described in the wiring diagram.
+2. Upload the provided code to your ESP32 using the Arduino IDE.
+3. Make sure to include the necessary libraries:
+   - `DFRobotDFPlayerMini`
+   - `SoftwareSerial`
+4. Place audio files (in MP3 format) on the SD card used with the DFPlayer Mini.
+
+## Usage
+- Adjust the potentiometer to set the desired playback duration.
+- Move in front of the motion sensor to trigger audio playback. The LED will light up during playback.
+- The audio will stop automatically after the set duration.
+
+## Troubleshooting
+- If the DFPlayer Mini does not initialize, check the connections.
+- Ensure that audio files are correctly formatted and placed in the root directory of the SD card.
+- If the motion sensor does not detect motion, verify its wiring and functionality.
 
 ## License
-This project is open-source and free to use under the MIT License.
+This project is open-source. Feel free to modify and use it in your projects!
+
+## Acknowledgments
+- [Arduino](https://www.arduino.cc/)
+- [DFRobot](https://www.dfrobot.com/)
 
