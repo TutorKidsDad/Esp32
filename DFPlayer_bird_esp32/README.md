@@ -22,16 +22,16 @@ This project uses an ESP32 microcontroller, a motion sensor, an LED, and a DFPla
 
 Wiring
   -Potentiometer: Connect one side to GND, the other to VCC (3.3V), and the middle pin (wiper) to an analog pin, e.g., 34.
-Pin Connections
-Component	ESP32 Pin	Notes
-Motion Sensor	GPIO 27	Connect VCC to 3.3V, GND to GND
-LED	GPIO 2	Connect the anode to GPIO 2, cathode to GND (use a resistor if necessary)
-Potentiometer	GPIO 34	Middle pin to GPIO 34, one side to GND, other side to 3.3V
-DFPlayer Mini	RX	GPIO 16 (connect to TX of DFPlayer)
-	TX	GPIO 17 (connect to RX of DFPlayer)
-	VCC	Connect to 5V power supply
-	GND	Connect to GND
-Speaker	Speaker	Connect according to DFPlayer specs
+-Pin Connections
+--Component	ESP32 Pin	Notes
+--Motion Sensor	GPIO 27	Connect VCC to 3.3V, GND to GND
+--LED	GPIO 2	Connect the anode to GPIO 2, cathode to GND (use a resistor if necessary)
+--Potentiometer	GPIO 34	Middle pin to GPIO 34, one side to GND, other side to 3.3V
+--DFPlayer Mini	RX	GPIO 16 (connect to TX of DFPlayer)
+	-TX	GPIO 17 (connect to RX of DFPlayer)
+	-VCC	Connect to 5V power supply
+	-GND	Connect to GND
+-Speaker	Speaker	Connect according to DFPlayer specs
 ## Code Explanation
 The code initializes the motion sensor and DFPlayer Mini. When motion is detected, it plays a random audio file for a duration determined by the potentiometer setting.
 
