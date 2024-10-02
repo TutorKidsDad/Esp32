@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Stepper Motor Control</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin: 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 300px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        label {
+            margin: 10px 0;
+            display: inline-block;
+        }
+        input[type="radio"], input[type="number"] {
+            margin: 5px;
+        }
+        input[type="submit"] {
+            margin-top: 10px;
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Stepper Motor Control 1</h1>
+    <form action="/" method="POST">
+        <input type="radio" name="direction1" value="CW" checked>
+        <label for="CW">Clockwise</label><br>
+        <input type="radio" name="direction1" value="CCW">
+        <label for="CCW">Counterclockwise</label><br><br>
+        <label for="steps1">Number of steps:</label><br>
+        <input type="number" name="steps1" min="1" required><br><br>
+        <input type="submit" value="GO!">
+    </form>
+
+    <h1>Stepper Motor Control 2</h1>
+    <form action="/" method="POST">
+        <input type="radio" name="direction2" value="CW" checked>
+        <label for="CW">Clockwise</label><br>
+        <input type="radio" name="direction2" value="CCW">
+        <label for="CCW">Counterclockwise</label><br><br>
+        <label for="steps2">Number of steps:</label><br>
+        <input type="number" name="steps2" min="1" required><br><br>
+        <input type="submit" value="GO!">
+    </form>
+
+</body>
+</html>
+
