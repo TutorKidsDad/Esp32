@@ -1,0 +1,73 @@
+
+<!DOCTYPE HTML><html>
+<head>
+  <title>ESP32 HTML Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+    }
+    h1 {
+      color: #0073e6;
+    }
+    form {
+      background-color: #ffffff;
+      padding: 20px;
+      margin: 20px auto;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      max-width: 400px;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #0073e6;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    input[type="submit"] {
+      background-color: #0073e6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: #005bb5;
+    }
+    a {
+      color: #0073e6;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>ESP32 Input Form</h1>
+  <form action="/get">
+    <label>Enter String Input:</label><br>
+    <input type="text" name="HTML_STR_INPUT1" placeholder="Type a string"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <form action="/get">
+    <label>Enter Integer Input:</label><br>
+    <input type="text" name="HTML_INT_INPUT2" placeholder="Type an integer"><br>
+    <input type="submit" value="Submit">
+  </form>
+  <form action="/get">
+    <label>Enter Float Input:</label><br>
+    <input type="text" name="HTML_FLOAT_INPUT3" placeholder="Type a float"><br>
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
+
