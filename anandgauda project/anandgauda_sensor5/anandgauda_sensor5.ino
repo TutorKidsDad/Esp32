@@ -71,31 +71,7 @@ typedef struct {        // Structure to be used in percentage and resistance val
    int moisture2;
   long resistance2;
 } values;
-/*
-/////////////////SERIAL LCD START /////////////////////////
-// set the LCD number of columns and rows
-int lcdColumns = 16;
-int lcdRows = 2;
 
-// set LCD address, number of columns and rows
-// if you don't know your display address, run an I2C scanner sketch
-LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows); 
-
-//////////////////// SERIAL LCD STOP////////////////////////
-
-// define Ohm character
-byte ohm[8] = {
-  B00000,
-  B01110,
-  B10001,
-  B10001,
-  B10001,
-  B01010,
-  B11011,
-  B00000
-};
-//////////////////////
-*/
 const long knownResistor1 = 4700;  // Constant value of known resistor in Ohms
 
 int activeDigitalPin1 = 18;         // 6 or 7 interchangeably
@@ -123,16 +99,7 @@ int sensorVoltage2;                // Measured sensor voltage
 //values valueOf[NUM_READS];        // Calculated moisture percentages and resistances to be sorted and filtered
 
 //int i;                            // Simple index variable
-/*
-////////////
-#define DHTTYPE DHT11
-#define DHTPIN  27   // DHT22 data pin connects to D4
-DHT dht(DHTPIN, DHTTYPE, 11); // 11 works fine for ESP8266
 
-
-float prevTemp = 0;
-int sent = 0;
-*/
 ///////////////////////////////////FOR SLEEP FUNCTION///////////////////
 #define mS_TO_S_FACTOR 1000  /* Conversion factor for mili seconds to seconds */
 #define TIME_TO_SLEEP  300000    /* Time ESP32 will go to sleep (in seconds) */
@@ -140,28 +107,8 @@ RTC_DATA_ATTR int bootCount = 0;
 int wifiCount = 0;
 ///////////////////////////////////SLEEP FN STOP /////////////////
 int GREEN_LED_PIN = 2;
-/*
-#include <Wire.h>
-    #include <Arduino.h>
-    #include <OneWire.h>
-    #include <DallasTemperature.h>
 
- //      #define myPeriodic 15 // Seconds
-    #define ONE_WIRE_BUS 26 // DS18B20 on arduino pin2 corresponds to D2 on physical board
-
-    OneWire oneWire(ONE_WIRE_BUS);
-    // DallasTemperature DS18B20(&oneWire);
-   DallasTemperature sensors(&oneWire);
-///////////////////////
-*/
 #define Wifi_Status 15 //  D15   Wifi Status
-
-/*
-  AC_USE_SPIFFS indicates SPIFFS or LittleFS as available file systems that
-  will become the AUTOCONNECT_USE_SPIFFS identifier and is exported as showing
-  the valid file system. After including AutoConnect.h, the Sketch can determine
-  whether to use FS.h or LittleFS.h by AUTOCONNECT_USE_SPIFFS definition.
-*/
 
 
 void setupCurrentPath() {
@@ -243,24 +190,7 @@ void setup() {
   delay(500);
  // digitalWrite(GREEN_LED_PIN,HIGH);
  // delay(1000);
- ////////////////////////////////////////////////// LCD START//////////////////////////////
- /*
-   // initialize LCD
-    lcd.begin(16,2);
-  lcd.init();
-  // turn on LCD backlight                      
-  lcd.backlight();
-// set up the LCD's number of columns and rows: 
-  lcd.createChar(1, ohm);
-  lcd.begin(16, 2);
-  lcd.print ("Soil Moisture Sensor");
- lcd.setCursor(0, 1);
-  // print the results to the serial monitor:
-  lcd.print("Initializing Sensor..." ); 
-     delay(1000);
 
-  ////////////////////////////////////////////////LCD STOP ///////////////////////////////////
-  */
   // initialize the digital pin as an output.
   // Pin 6 is sense resistor voltage supply 1
   pinMode(18, OUTPUT);    
@@ -334,30 +264,7 @@ void dataprocess()
      
      
 /////////////////////////////////////////////////////DO NOT DISTURB STOP ///////////////////////////
-/*
-  // call sensors.requestTemperatures() to issue a global temperature 
-  // request to all devices on the bus
-  Serial.print("Requesting temperatures...");
-  sensors.requestTemperatures(); // Send the command to get temperatures
-  Serial.println("DONE");
-  // After we got the temperatures, we can print them here.
-  // We use the function ByIndex, and as an example get the temperature from the first sensor only.
-  float Tempsensor1 = sensors.getTempCByIndex(0);
- float Tempsensor2 = sensors.getTempCByIndex(1);
-  // Check if reading was successful
-if((Tempsensor1 != DEVICE_DISCONNECTED_C) || (Tempsensor2 != DEVICE_DISCONNECTED_C))
- //if(tempC2 != DEVICE_DISCONNECTED_C) 
-  {
-    Serial.print("Temperature for the device 1 (index 0) is: ");
-    Serial.println(Tempsensor1);
-    Serial.print("Temperature for the device 2 (index 1) is: ");
-    Serial.println(Tempsensor2);
-  } 
-  else
-  {
-    Serial.println("Error: Could not read temperature data");
-  }
-*/
+
   ////////////////////////////////////////////////////////////////////////////////////////////////
  // read sensor, filter, and calculate resistance value
   // Noise filter: median filter
@@ -439,27 +346,7 @@ delay(1000);
   Serial.println(sensorVoltage2);
    delay(25); 
 
-/*
-float AirTemperature,humidity;
-  //char buffer[10];
-  humidity = dht.readHumidity();          // Read humidity (percent)
-  delay(100);
-  //t1 = dht.readTemperature(true);     // Read temperature as Fahrenheit
-  AirTemperature = dht.readTemperature();     // Read temperature as cel
-  delay(100);
-    // Check if any reads failed and exit early (to try again).
-  if (isnan(humidity) || isnan(AirTemperature)) {
-     Serial.println("Failed to read from DHT sensor!");
-    //  return;
-  }
- // Serial.print(String(sent)+" Temperature: ");
-  Serial.println(AirTemperature);
-  delay(100);
- // Serial.print(String(sent)+" Humidity: ");
-  Serial.println(humidity);
-    delay(100);
- //   Serial.println("I am Connected 1") ;
-*/
+
    unsigned long currentMillis = millis();
   // if WiFi is down, try reconnecting every CHECK_WIFI_TIME seconds
   if ((WiFi.status() != WL_CONNECTED) && ((millis() - lastTime) > timerDelay) ) {
