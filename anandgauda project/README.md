@@ -4,7 +4,7 @@ This project demonstrates the use of ESP32 or ESP8266 to read data from moisture
 
 ## Features
 
-- Measure moisture from two sensors.
+- Measure moisture from two sensors - Gypsum/watermark sensor.
 - Publish moisture data to ThingSpeak using WiFi.
 - AutoConnect library for WiFi connection management.
 - Deep sleep mode to save power.
