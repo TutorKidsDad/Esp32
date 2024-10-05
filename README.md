@@ -69,9 +69,9 @@ Here’s a brief description of each project:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your_username/esp32-projects-collection.git
-   cd esp32-projects-collection
-
+   git clone https://github.com/TutorKidsDad/Esp32.git
+   cd Esp32
+   
 2. **Open the Sketch**:
    - Navigate to the folder of the project you want to run.
    - Open the `.ino` file (or main file) in your preferred development environment:
