@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600" rel="stylesheet">
+    <title>Smart Height Measurement</title>
+    <style>
+        html {
+            font-family: 'Open Sans', sans-serif;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            color: #333333;
+        }
+        body {
+            margin-top: 50px;
+            background-color: #f4f4f4;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            margin: 50px auto 30px;
+            font-size: 2.5em;
+            color: #3498db;
+        }
+        .data {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .icon {
+            width: 40px;
+            height: 40px;
+        }
+        .distance-text {
+            font-weight: 600;
+            font-size: 24px;
+            text-align: center;
+        }
+        .distance-value {
+            font-weight: 300;
+            font-size: 48px;
+            color: #3498db;
+            margin-top: 10px;
+        }
+        .subscript {
+            font-size: 18px;
+            font-weight: 400;
+        }
+        .divider {
+            border-left: 2px solid #3498db;
+            height: 80px;
+            margin: 0 20px;
+        }
+    </style>
+    <script>
+        setInterval(function() { window.location.reload(); }, 5000);
+    </script>
+</head>
+<body>
+    <h1>Smart Height Measurement</h1>
+    <div class="data">
+        <!-- Distance in cm -->
+        <div>
+            <img src="data:image/svg+xml;base64,...1" class="icon" alt="Distance in cm"> <!-- Replace with actual icon data -->
+            <div class="distance-text">Distance (cm)</div>
+            <div class="distance-value">0<span class="subscript"> cm</span></div> <!-- Replace with actual distance value -->
+        </div>
+        
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Distance in inches -->
+        <div>
+            <img src="data:image/svg+xml;base64,...2" class="icon" alt="Distance in inch"> <!-- Replace with actual icon data -->
+            <div class="distance-text">Distance (in)</div>
+            <div class="distance-value">0<span class="subscript"> inch</span></div> <!-- Replace with actual distance value -->
+        </div>
+    </div>
+</body>
+</html>
+
