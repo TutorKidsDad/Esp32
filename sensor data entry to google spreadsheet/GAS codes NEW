@@ -1,0 +1,63 @@
+//-----------------------------------------------
+// Description: Updated version for sending data from ESP8266 to Google Spreadsheet.
+// Syntax for GET request: 
+// https://script.google.com/macros/s/<gscript id>/exec?temperature=data_here&humidity=data_here
+//-----------------------------------------------
+/**
+* Function doGet: Parse received data from GET request,
+  get and store data which corresponds with header row in Google Spreadsheet
+*/
+function doGet(e) {
+  Logger.log(JSON.stringify(e));  // log received parameters
+
+  // Define result variable
+  var result = 'Success';  // Default assumption of success
+
+  // Check if the parameters exist
+  if (!e.parameter || Object.keys(e.parameter).length === 0) {
+    result = 'No Parameters';
+    return ContentService.createTextOutput(result);
+  }
+
+  try {
+    // Spreadsheet ID
+    var sheetId = 'YOUR_GAS_ID_HERE';  
+    var sheet = SpreadsheetApp.openById(sheetId).getActiveSheet();  
+
+    // Get next available row
+    var newRow = sheet.getLastRow() + 1;  
+    var rowData = [new Date()];  // First column will hold the timestamp
+
+    // Process each parameter and map to specific columns
+    var temperature = e.parameter.temperature || '';
+    var humidity = e.parameter.humidity || '';
+
+    // Fill the respective columns with values
+    rowData.push(temperature);  // Column B: Temperature
+    rowData.push(humidity);     // Column C: Humidity
+
+    // Write new row to the sheet
+    sheet.getRange(newRow, 1, 1, rowData.length).setValues([rowData]);
+
+    // Log operation success
+    Logger.log("Data written successfully: " + JSON.stringify(rowData));
+  } catch (error) {
+    // Catch and log any errors
+    Logger.log("Error: " + error.message);
+    result = 'Error: ' + error.message;
+  }
+
+  // Return result of operation
+  return ContentService.createTextOutput(result);
+}
+
+/**
+ * Utility function: Remove leading and trailing quotes from string
+ */
+function stripQuotes(value) {
+  return value.replace(/^["']|['"]$/g, "");
+}
+//-----------------------------------------------
+// End of file
+//-----------------------------------------------
+
