@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BME280 Sensor Data</title>
+    <script>
+        async function fetchData() {
+            const response = await fetch('/data');
+            const data = await response.json();
+            document.getElementById("temp").innerText = data.temp + " °C";
+            document.getElementById("hum").innerText = data.hum + " %";
+            document.getElementById("pres").innerText = data.pres + " hPa";
+        }
+
+        setInterval(fetchData, 5000); // Fetch data every 5 seconds
+    </script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        h1 { color: #444; }
+        h3 { color: #666; }
+    </style>
+</head>
+<body>
+    <h1>BME280 Sensor Data</h1>
+    <h3>Temperature: <span id="temp">Loading...</span></h3>
+    <h3>Humidity: <span id="hum">Loading...</span></h3>
+    <h3>Pressure: <span id="pres">Loading...</span></h3>
+</body>
+</html>
+
