@@ -1,0 +1,97 @@
+<!DOCTYPE html> 
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>LED Control</title>
+  <style>
+    html { 
+      font-family: Helvetica; 
+      display: inline-block; 
+      margin: 0px auto; 
+      text-align: center;
+    }
+    body {
+      margin-top: 50px;
+    }
+    h1 {
+      color: #444444;
+      margin: 50px auto 30px;
+    }
+    h3 {
+      color: #444444;
+      margin-bottom: 50px;
+    }
+    .button {
+      display: block;
+      width: 80px;
+      background-color: #3498db;
+      border: none;
+      color: white;
+      padding: 13px 30px;
+      text-decoration: none;
+      font-size: 25px;
+      margin: 0px auto 35px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    .button-on {
+      background-color: #3498db;
+    }
+    .button-on:active {
+      background-color: #2980b9;
+    }
+    .button-off {
+      background-color: #34495e;
+    }
+    .button-off:active {
+      background-color: #2c3e50;
+    }
+    .slider {
+      width: 300px;
+    }
+    p {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Samvat Remote Control</h1>
+  <h3>Power in your hands</h3>
+  
+  <!-- LED1 Control -->
+  <p>Switch1 Status: <span id="led1status">OFF</span></p>
+  <a class="button button-on" href="/Switch1on">ON</a>
+  <a class="button button-off" href="/Switch1off">OFF</a>
+  
+  <!-- Slider for LED1 -->
+  <p>LED1 Intensity</p>
+  <input type="range" class="slider" id="led1" min="0" max="255" value="0" onchange="updateSlider1(this.value)">
+  
+  <!-- LED2 Control -->
+  <p>Switch2 Status: <span id="led2status">OFF</span></p>
+  <a class="button button-on" href="/Switch2on">ON</a>
+  <a class="button button-off" href="/Switch2off">OFF</a>
+  
+  <!-- Slider for LED2 -->
+  <p>LED2 Intensity</p>
+  <input type="range" class="slider" id="led2" min="0" max="255" value="0" onchange="updateSlider2(this.value)">
+  
+  <!-- JavaScript to handle slider input -->
+  <script>
+    function updateSlider1(val) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/Switch1?pwm=' + val, true);
+      xhr.send();
+    }
+
+    function updateSlider2(val) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/Switch2?pwm=' + val, true);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
+
