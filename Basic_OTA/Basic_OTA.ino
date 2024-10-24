@@ -2,43 +2,55 @@
 #include <ESPmDNS.h>
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
+#include <WiFiManager.h> // Include WiFiManager library
 
-const char* ssid = "";
-const char* password = "";
+// Create an instance of WiFiManager
+WiFiManager wifiManager;
 
 void setup() {
   Serial.begin(115200);
   Serial.println("Booting");
+
+  // Set WiFi mode to Station
   WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
-  while (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("Connection Failed! Rebooting...");
-    delay(5000);
+
+  // Automatically connect using previously saved credentials or open the captive portal
+  if (!wifiManager.autoConnect("ESP32_AP")) {
+    Serial.println("Failed to connect to Wi-Fi. Rebooting...");
+    delay(3000);
     ESP.restart();
   }
 
-  // Port defaults to 3232
-  // ArduinoOTA.setPort(3232);
+  // Set fixed hostname "sensor1"
+  const char* hostname = "sensor1";
 
-  // Hostname defaults to esp3232-[MAC]
-  // ArduinoOTA.setHostname("myesp32");
+  // Start mDNS service
+  if (!MDNS.begin(hostname)) {
+    Serial.println("Error setting up mDNS responder!");
+    while (1) {
+      delay(1000); // Stop if mDNS setup fails
+    }
+  }
+  Serial.println("mDNS responder started");
 
-  // No authentication by default
-  // ArduinoOTA.setPassword("admin");
+  // Print the hostname to access the ESP32
+  Serial.print("You can access the ESP32 at http://");
+  Serial.print(hostname);
+  Serial.println(".local");
 
-  // Password can be set with it's md5 value as well
-  // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
-  // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
+  // Set OTA configurations
+  ArduinoOTA.setHostname(hostname);
+  ArduinoOTA.setPassword("your_secure_password");
 
+  // Configure OTA callbacks
   ArduinoOTA
     .onStart([]() {
       String type;
-      if (ArduinoOTA.getCommand() == U_FLASH)
+      if (ArduinoOTA.getCommand() == U_FLASH) {
         type = "sketch";
-      else // U_SPIFFS
+      } else { // U_SPIFFS
         type = "filesystem";
-
-      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      }
       Serial.println("Start updating " + type);
     })
     .onEnd([]() {
@@ -64,5 +76,16 @@ void setup() {
 }
 
 void loop() {
+  // Handle OTA update requests
   ArduinoOTA.handle();
+
+  // Monitor free heap memory
+  Serial.printf("Free Heap: %d\n", ESP.getFreeHeap());
+
+  // Optional: Deep sleep logic based on your project requirements
+  // Example: deep sleep after 5 minutes of inactivity or other criteria
+  // if (millis() > 300000) {
+  //   Serial.println("Entering deep sleep...");
+  //   ESP.deepSleep(600e6); // Sleep for 10 minutes
+  // }
 }
