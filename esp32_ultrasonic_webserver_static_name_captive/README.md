@@ -1,67 +1,67 @@
-# Smart Height Measurement with ESP32
+# ESP32 Smart Height Measurement Project
 
-This project utilizes an ESP32 microcontroller and an ultrasonic sensor (HC-SR04) to measure distances and display the readings in both centimeters and inches on a web server interface.
-
-## Components Used
-- ESP32 Development Board
-- HC-SR04 Ultrasonic Sensor
-- Breadboard and Jumper Wires
+This project demonstrates a height measurement system using an ESP32, an ultrasonic sensor, and a web-based interface. The project uses **WiFiManager** for easy network setup and **mDNS** for accessing the device via a human-readable hostname.
 
 ## Features
-- Measures distance using an ultrasonic sensor.
-- Hosts a web server to display measurements in real-time.
-- Refreshes the web page every 5 seconds to update distance readings.
-- Displays the distance in both centimeters and inches.
+- **WiFiManager Integration**: Easily set up and manage Wi-Fi credentials using a captive portal.
+- **mDNS Support**: Access the device using a hostname instead of an IP address (e.g., `http://sensor1.local`).
+- **Ultrasonic Sensor Integration**: Measure and display distance in centimeters and inches.
+- **Responsive Web Interface**: View the distance measurements on a clean web interface.
 
-## Code Overview
+## Components Used
+- **ESP32 Development Board**
+- **Ultrasonic Sensor (HC-SR04 or compatible)**
+- **WiFiManager Library**
+- **mDNS Library**
+- **NewPing Library**
 
-The main code is written in C++ and utilizes the following libraries:
-- `WiFi.h`: For managing Wi-Fi connections.
-- `WebServer.h`: For creating the web server.
-- `NewPing.h`: For managing the ultrasonic sensor.
+## Project Structure
 
-### Setup Instructions
+## Requirements
+- **ESP32 Development Board**
+- **Arduino IDE** with ESP32 support
+- **WiFiManager Library**
+- **ESPmDNS Library**
+- **NewPing Library**
 
-1. **Install the Required Libraries**
-   - Make sure you have the `WiFi`, `WebServer`, and `NewPing` libraries installed in your Arduino IDE.
+## Installation
 
-2. **Configure Wi-Fi Credentials**
-   - Open the code and replace the `ssid` and `password` variables with your desired Wi-Fi credentials:
-   ```cpp
-   const char* ssid = "server";  // Enter SSID here
-   const char* password = "password";  // Enter Password here
-## Upload the Code
-Connect your ESP32 to the computer and upload the code using the Arduino IDE.
+1. **Clone or download** this repository to your local machine.
+2. **Install the necessary libraries** in the Arduino IDE:
+   - WiFiManager
+   - ESPmDNS
+   - NewPing
 
-## Access the Web Interface
-1. Connect your computer or mobile device to the same Wi-Fi network as the ESP32.
-2. Open a web browser and navigate to the IP address: `192.168.1.1` (or the IP you set).
+   You can install these libraries via the Arduino Library Manager.
 
-## Code Explanation
+3. **Connect your ESP32** to your computer and **upload the code** using the Arduino IDE.
 
-### Key Functions
-- `setup()`: Initializes serial communication, sets pin modes, connects to Wi-Fi, and starts the web server.
-- `loop()`: Continuously handles client requests to the web server.
-- `handle_OnConnect()`: Handles incoming requests, triggers the ultrasonic sensor, and sends the distance data back to the client.
-- `handle_NotFound()`: Returns a 404 error for any requests that do not match defined routes.
-- `SendHTML()`: Constructs and returns the HTML page displaying the distance measurements.
+## How It Works
 
-### Pin Configuration
-- `trigPin`: Pin connected to the HC-SR04 trigger.
-- `echoPin`: Pin connected to the HC-SR04 echo.
+### WiFiManager Integration
+Upon boot, if no Wi-Fi credentials are stored, the ESP32 will start a Wi-Fi Access Point (AP) named **"server"** with the password **"password"**. You can connect to this AP using your phone or computer, then navigate to `http://192.168.1.1` in your web browser to enter your Wi-Fi credentials.
 
-## Example Output
-The web interface displays the distance in two formats:
-- Distance in centimeters (cm)
-- Distance in inches (in)
+### Accessing the Web Interface
+After connecting to your Wi-Fi network, the ESP32 will obtain an IP address and can be accessed via mDNS. You can enter `http://sensor1.local` in your web browser to view the height measurements.
 
-Both values are updated every 5 seconds for real-time monitoring.
+### Measuring Distance
+The ultrasonic sensor measures the distance, which is displayed in both centimeters and inches on the web interface. The measurements are refreshed every few seconds.
+
+## Usage
+- Connect the ultrasonic sensor to the specified GPIO pins.
+- Power the ESP32 and check the Serial Monitor for connection status.
+- Use the web interface to view live distance measurements.
 
 ## Troubleshooting
-- **ESP32 not connecting to Wi-Fi**: Check the SSID and password values.
-- **No distance readings**: Ensure the ultrasonic sensor is connected properly to the specified pins.
-- **Web interface not loading**: Verify that your device is connected to the correct network.
+- If the device does not connect to Wi-Fi, check your credentials.
+- Ensure the ultrasonic sensor is connected properly and functioning.
 
 ## License
-This project is open-source. Feel free to modify and use it as you like.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgements
+- [ESP32](https://www.esp32.com/)
+- [WiFiManager Library](https://github.com/tzapu/WiFiManager)
+- [NewPing Library](https://github.com/blakeblackshear/NewPing)
+
 
