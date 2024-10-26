@@ -57,7 +57,7 @@ void loop() {
     previousMillis = currentMillis;
 
     // Code to read sensor data goes here
-    float sensorValue = 0.0; // replace with your actual sensor reading
+    float sensorValue = 0.0; // Replace with your actual sensor reading
 
     // Construct URL for ThingSpeak API POST request
     String url = "/update?api_key=";
@@ -87,4 +87,3 @@ void loop() {
   // Other code to be executed goes here
   // ...
 }
-
