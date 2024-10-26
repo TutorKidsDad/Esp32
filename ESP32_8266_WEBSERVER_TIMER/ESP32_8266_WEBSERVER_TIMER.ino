@@ -2,15 +2,16 @@
 #ifdef ESP32
   #include <WiFi.h>
   #include <AsyncTCP.h>
+  #include <ESPmDNS.h>
+  #include <WiFiManager.h>  // Include the WiFiManager library
 #else
   #include <ESP8266WiFi.h>
   #include <ESPAsyncTCP.h>
 #endif
 #include <ESPAsyncWebServer.h>
 
-// Replace with your network credentials
-const char* ssid = "REPLACE_WITH_YOUR_SSID";
-const char* password = "REPLACE_WITH_YOUR_PASSWORD";
+// Create AsyncWebServer object on port 80
+AsyncWebServer server(80);
 
 const char* PARAM_INPUT_1 = "state";
 const char* PARAM_INPUT_2 = "value";
@@ -19,12 +20,39 @@ const int output = 2;
 
 String timerSliderValue = "10";
 
-// Create AsyncWebServer object on port 80
-AsyncWebServer server(80);
-
 // HTML content for the main page
 const char index_html[] PROGMEM = R"rawliteral(
-<!-- Your HTML content here -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ESP32 Control</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    /* Add your styles here */
+  </style>
+  <script>
+    function toggleCheckbox(checkbox) {
+      var xhr = new XMLHttpRequest();
+      var state = checkbox.checked ? 1 : 0;
+      xhr.open("GET", "/update?state=" + state, true);
+      xhr.send();
+    }
+
+    function updateSlider(value) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/slider?value=" + value, true);
+      xhr.send();
+    }
+  </script>
+</head>
+<body>
+  <h1>ESP32 Control</h1>
+  <div id="buttons">
+    BUTTONPLACEHOLDER
+  </div>
+  <input type="range" min="1" max="60" value="TIMERVALUE" oninput="updateSlider(this.value)">
+</body>
+</html>
 )rawliteral";
 
 // Function prototypes
@@ -38,21 +66,24 @@ void setup() {
   pinMode(output, OUTPUT);
   digitalWrite(output, LOW);
 
-  // Connect to Wi-Fi with timeout
-  WiFi.begin(ssid, password);
-  unsigned long startAttemptTime = millis();
-  const unsigned long timeoutDuration = 10000;  // 10 seconds
-  
-  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < timeoutDuration) {
-      delay(1000);
-      Serial.println("Connecting to WiFi...");
-  }
-  
-  if (WiFi.status() != WL_CONNECTED) {
-      Serial.println("Failed to connect to WiFi");
+  // Initialize WiFiManager
+  WiFiManager wifiManager;
+
+  // Automatically connect to Wi-Fi
+  if (!wifiManager.autoConnect("ESP32-AP")) {
+    Serial.println("Failed to connect. Restarting...");
+    delay(3000);
+    ESP.restart();  // Restart if connection fails
   } else {
-      Serial.println("WiFi connected.");
-      Serial.println(WiFi.localIP());
+    Serial.println("WiFi connected.");
+    Serial.println(WiFi.localIP());
+  }
+
+  // Start mDNS service
+  if (MDNS.begin("esp32")) {
+    Serial.println("mDNS responder started");
+  } else {
+    Serial.println("Error starting mDNS");
   }
 
   // Route for root / web page

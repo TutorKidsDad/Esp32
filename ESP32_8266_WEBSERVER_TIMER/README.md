@@ -1,67 +1,67 @@
-# ESP Web Server: Output Control with Slider and Button
+# ESP32 Web Server with WiFiManager and mDNS
 
-This project sets up a web server on an ESP32 or ESP8266 to control an output device (e.g., an LED) using a web interface. Users can toggle the output on and off via a button and adjust the timing or other parameters using a slider.
+This project demonstrates how to set up an ESP32 as a web server with the capability to connect to Wi-Fi using WiFiManager. The server provides a web interface to control an output pin and adjust a timer value via a slider. The ESP32 can be accessed via a user-friendly mDNS hostname.
 
 ## Features
 
-- Control an output device (e.g., LED) via a web page.
-- Slider for controlling a value (like a timer).
-- Wi-Fi connection handling with feedback on Serial Monitor.
-- Asynchronous web server for fast, non-blocking responses.
-- Compatibility with both ESP32 and ESP8266.
+- **WiFiManager**: Automatically sets up Wi-Fi connections, enabling the ESP32 to act as an access point when no network credentials are available.
+- **mDNS Support**: Access the web interface using a friendly hostname (`http://esp32.local`) instead of an IP address.
+- **Web Interface**: Control an output pin and adjust a timer value through a simple HTML interface.
+- **Real-time Interaction**: Use a slider to send timer values and toggle an output state via checkboxes.
 
-## Prerequisites
+## Requirements
 
-### Hardware Requirements
-
-- ESP32 or ESP8266 microcontroller
-- LED or any other output device connected to a GPIO pin
-- Resistor (if using an LED)
-- Wi-Fi network for connecting the ESP device
-
-### Software Requirements
-
-- [Arduino IDE](https://www.arduino.cc/en/Main/Software) with the following libraries installed:
-  - **ESPAsyncWebServer**
-  - **AsyncTCP** (for ESP32) or **ESPAsyncTCP** (for ESP8266)
-  - **WiFi.h** (for ESP32) or **ESP8266WiFi.h** (for ESP8266)
+- ESP32 board
+- Arduino IDE or PlatformIO
+- Libraries:
+  - [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
+  - [WiFiManager](https://github.com/tzapu/WiFiManager)
+  - [AsyncTCP](https://github.com/me-no-dev/AsyncTCP)
 
 ## Installation
 
-1. **Install the Required Libraries**:
-   Open Arduino IDE, navigate to **Sketch** > **Include Library** > **Manage Libraries**, and search for the following libraries to install them:
-   - ESPAsyncWebServer
-   - AsyncTCP (for ESP32)
-   - ESPAsyncTCP (for ESP8266)
-
-2. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yourusername/your-repository.git
-   cd your-repository
-
-## Hardware Connections
-
-    Connect an LED or other output device to GPIO 2 (default pin in the code).
-    If using an LED, connect a suitable resistor in series with it to limit current.
-
-## Upload the Code
-
-    Connect your ESP32 or ESP8266 to your computer.
-    Select the appropriate board and port from Tools > Board and Tools > Port.
-    Upload the code to the microcontroller.
+1. **Clone or download the repository**.
+2. **Open the project in Arduino IDE**:
+   - Go to `File` -> `Open` and select the downloaded project file.
+3. **Install required libraries**:
+   - Open the Library Manager (`Sketch` -> `Include Library` -> `Manage Libraries...`).
+   - Search for and install `ESPAsyncWebServer`, `WiFiManager`, and `AsyncTCP`.
+4. **Configure WiFi Credentials**:
+   - Replace the placeholders in the code for `ssid` and `password` with your network credentials.
+5. **Upload the Code**:
+   - Connect your ESP32 to your computer and upload the sketch.
 
 ## Usage
-### Monitor Serial Output
 
-After uploading, open the Serial Monitor (Tools > Serial Monitor) to view the Wi-Fi connection status. Once connected, the ESP32/ESP8266 will print its local IP address.
-Access the Web Interface
+1. **Power the ESP32**: Connect it to a power source.
+2. **Connect to Wi-Fi**:
+   - If the ESP32 fails to connect to the specified Wi-Fi network, it will create a Wi-Fi access point named "ESP32-AP".
+   - Connect to this network with your phone or computer to configure your desired Wi-Fi settings.
+3. **Access the Web Interface**:
+   - Open a web browser and go to `http://esp32.local`.
+4. **Control the Output**:
+   - Use the toggle switch to change the output pin state.
+   - Adjust the timer value using the slider.
 
-Open a web browser and enter the IP address shown in the Serial Monitor. You will see a web page that allows you to control the output device and adjust the slider value.
-##Code Explanation
-###Wi-Fi Connection
+## Code Overview
 
-The device connects to the specified Wi-Fi network and prints its local IP address once connected.
-###Asynchronous Web Server
+- The main functionality resides in `setup()` and `loop()`.
+- The server handles GET requests to update the output state and slider value.
+- The HTML content is served from the ESP32's flash memory.
 
-The asynchronous web server allows users to interact with the output device without blocking the main loop, resulting in smoother and faster response times.
+## Troubleshooting
+
+- **Connection Issues**: If you cannot connect to the ESP32, try resetting it or re-uploading the code.
+- **Web Interface Not Loading**: Ensure that your device is connected to the same network as the ESP32 or directly to the "ESP32-AP".
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- [ESP32](https://www.esp32.com/)
+- [Arduino](https://www.arduino.cc/)
+- [ESPAsyncWebServer](https://github.com/me-no-dev/ESPAsyncWebServer)
+- [WiFiManager](https://github.com/tzapu/WiFiManager)
 
