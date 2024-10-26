@@ -23,14 +23,9 @@
 #error "Install ArduinoJson v6.7.0-beta or higher"
 #endif
 
-
-
-
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_ADXL345_U.h>
-
-
 
 static const int RXPin = 12, TXPin = 13;
 static const uint32_t GPSBaud = 9600;

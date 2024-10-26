@@ -4,8 +4,8 @@
 
 #define SECRET
 
-const char ssid[] = "OnlineTPS";
-const char pass[] = "TPS@12345";
+const char ssid[] = "";
+const char pass[] = "";
 
 
 ///////////////////////////
