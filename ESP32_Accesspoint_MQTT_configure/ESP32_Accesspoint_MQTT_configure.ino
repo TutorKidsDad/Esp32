@@ -5,6 +5,7 @@
 #include <ESP8266WiFi.h>
 #else
 #include <WiFi.h>
+#include <ESPmDNS.h>  // Include mDNS for ESP32
 #endif
 #include <DNSServer.h>
 #if defined(ESP8266)
@@ -15,6 +16,7 @@
 #include <WiFiManager.h>
 #include <ArduinoJson.h>
 #include <DHT.h>
+
 #define DHTPIN 0  // DHT11 is connected to GPIO Pin 0
 float humi;
 float temp;
@@ -130,6 +132,13 @@ void setup() {
 
   Serial.println("local IP:");
   Serial.println(WiFi.localIP());
+
+  // Start mDNS service
+  if (!MDNS.begin("esp32")) {  // Change "esp32" to your preferred hostname
+    Serial.println("Error starting mDNS");
+  } else {
+    Serial.println("mDNS responder started");
+  }
 }
 
 void loop() {
