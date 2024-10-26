@@ -1,11 +1,6 @@
 #include <WiFi.h>
 #include <WebServer.h>
-
-
-
-/*Put your SSID & Password*/
-const char* ssid = "testing";  // Enter SSID here
-const char* password = "password";  //Enter Password here
+#include <WiFiManager.h> // Add WiFiManager library
 
 WebServer server(80);
 
@@ -23,48 +18,38 @@ float distanceInch;
 void setup() {
   Serial.begin(115200);
   delay(100);
-    pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
-          
 
-  Serial.println("Connecting to ");
-  Serial.println(ssid);
-
-  //connect to your local wi-fi network
-  WiFi.begin(ssid, password);
-
-  //check wi-fi is connected to wi-fi network
-  while (WiFi.status() != WL_CONNECTED) {
-  delay(1000);
-  Serial.print(".");
+  // Initialize WiFiManager
+  WiFiManager wm;
+  if (!wm.autoConnect("AutoConnectAP")) {
+    Serial.println("Failed to connect or hit timeout");
+    ESP.restart();
   }
-  Serial.println("");
   Serial.println("WiFi connected..!");
   Serial.print("Got IP: ");  Serial.println(WiFi.localIP());
 
   server.on("/", handle_OnConnect);
   server.onNotFound(handle_NotFound);
-
   server.begin();
   Serial.println("HTTP server started");
-
 }
+
 void loop() {
-    // Prints the distance in the Serial Monitor
+  // Prints the distance in the Serial Monitor
   Serial.print("Distance (cm): ");
   Serial.println(distanceCm);
-    delay(1000);
+  delay(1000);
   Serial.print("Distance (inch): ");
   Serial.println(distanceInch);
-    delay(1000);
+  delay(1000);
   
   server.handleClient();
-  
 }
 
 void handle_OnConnect() {
-
- // Clears the trigPin
+  // Clears the trigPin
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   // Sets the trigPin on HIGH state for 10 micro seconds
@@ -76,20 +61,19 @@ void handle_OnConnect() {
   duration = pulseIn(echoPin, HIGH);
   
   // Calculate the distance
-  distanceCm = duration * SOUND_SPEED/2;
+  distanceCm = duration * SOUND_SPEED / 2;
   
   // Convert to inches
   distanceInch = distanceCm * CM_TO_INCH;
   
-
-  
   delay(1000);
-   server.send(200, "text/html", SendHTML(distanceCm,distanceInch)); 
+  server.send(200, "text/html", SendHTML(distanceCm, distanceInch)); 
 }
 
-void handle_NotFound(){
+void handle_NotFound() {
   server.send(404, "text/plain", "Not found");
 }
+
 
 String SendHTML(float distanceCm,float distanceInch){
   String ptr = "<!DOCTYPE html> <html>\n";
