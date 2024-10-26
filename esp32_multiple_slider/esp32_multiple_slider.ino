@@ -1,9 +1,6 @@
-/* UPDATED BY SWAPNIL KARAMBELKAR
-  Rui Santos & Sara Santos - Random Nerd Tutorials
-  Complete project details at https://RandomNerdTutorials.com/esp32-web-server-websocket-sliders/
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
-  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+#include <WiFiManager.h>  // Include the WiFiManager library
+
+// Other includes remain the same
 #include <Arduino.h>
 #include <WiFi.h>
 #include <AsyncTCP.h>
@@ -11,15 +8,11 @@
 #include "LittleFS.h"
 #include <Arduino_JSON.h>
 
-// Replace with your network credentials
-const char* ssid = "REPLACE_WITH_YOUR_SSID";
-const char* password = "REPLACE_WITH_YOUR_SSID";
-
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 // Create a WebSocket object
-
 AsyncWebSocket ws("/ws");
+
 // Set LED GPIO
 const int ledPin1 = 12;
 const int ledPin2 = 13;
@@ -64,23 +57,15 @@ void initFS() {
   }
 }
 
-// Initialize WiFi
+// Initialize WiFi using WiFiManager
 void initWiFi() {
-    WiFi.mode(WIFI_STA);
-    WiFi.begin(ssid, password);
-    Serial.print("Connecting to WiFi ..");
-    int attempts = 0;
-    while (WiFi.status() != WL_CONNECTED && attempts < 20) {
-        Serial.print('.');
-        delay(1000);
-        attempts++;
-    }
-    if (WiFi.status() == WL_CONNECTED) {
-        Serial.println(WiFi.localIP());
-    } else {
-        Serial.println("Failed to connect to WiFi");
-        // Handle the failure (e.g., enter deep sleep, restart, etc.)
-    }
+  WiFiManager wm;
+  
+  // Customize the captive portal by setting your own SSID
+  wm.autoConnect("ESP32-Config-Portal");
+  
+  Serial.println("Connected to WiFi");
+  Serial.println(WiFi.localIP());
 }
 
 void notifyClients(String sliderValues) {
@@ -118,6 +103,7 @@ void handleWebSocketMessage(void *arg, uint8_t *data, size_t len) {
     }
   }
 }
+
 void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len) {
   switch (type) {
     case WS_EVT_CONNECT:
