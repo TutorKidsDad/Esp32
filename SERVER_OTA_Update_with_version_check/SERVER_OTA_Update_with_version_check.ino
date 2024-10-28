@@ -1,11 +1,12 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Update.h>
+#include <WiFiManager.h>  // Include WiFiManager library
 #include <esp_sleep.h> // Include for deep sleep functionality
 
-// Replace with your network credentials
-const char* ssid = "";
-const char* password = "";
+// Replace with your network credentials (will be managed by WiFiManager)
+//const char* ssid = "";
+//const char* password = "";
 
 // Define the current firmware version of your ESP32
 const String currentVersion = "v1.0.0";
@@ -21,8 +22,18 @@ const char* firmware_url = "http://www.tweenz.in/a.bin";
 void setup() {
   Serial.begin(115200);
 
-  // Attempt to connect to Wi-Fi
-  connectToWiFi();
+  // Attempt to connect to Wi-Fi using WiFiManager
+  WiFiManager wm;
+  if (!wm.autoConnect("ESP32_AP")) {  // Creates an access point named "ESP32_AP" if no known networks are found
+    Serial.println("Failed to connect or timeout occurred.");
+    goToDeepSleep(); // Enter deep sleep if unable to connect
+    return;
+  }
+
+  // Print connected IP address
+  Serial.println("Connected to Wi-Fi");
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
 
   // Check for OTA update if connected
   if (WiFi.status() == WL_CONNECTED) {
@@ -30,25 +41,6 @@ void setup() {
   } else {
     Serial.println("WiFi not connected, going to deep sleep for 5 minutes...");
     goToDeepSleep();
-  }
-}
-
-void connectToWiFi() {
-  WiFi.begin(ssid, password);
-  unsigned long startAttemptTime = millis();
-
-  // Attempt to connect to WiFi for 30 seconds
-  while (WiFi.status() != WL_CONNECTED && millis() - startAttemptTime < 30000) {
-    delay(500);
-    Serial.print(".");
-  }
-
-  if (WiFi.status() == WL_CONNECTED) {
-    Serial.println("\nConnected to WiFi");
-    Serial.println("IP Address: ");
-    Serial.println(WiFi.localIP());
-  } else {
-    Serial.println("\nFailed to connect to WiFi");
   }
 }
 

@@ -1,10 +1,7 @@
 #include <Arduino.h>
 #include "ota_update.h"  // OTA header
 #include "dht_sensor.h"  // DHT11 sensor header
-
-// Replace with your network credentials
-const char* ssid = "swapnil2@4";
-const char* password = "TPS@462016";
+#include <WiFiManager.h> // WiFiManager library
 
 void setup() {
   Serial.begin(115200);
@@ -12,8 +9,16 @@ void setup() {
   // Initialize the DHT sensor
   initDHT();
 
-  // Connect to WiFi and check for OTA updates
-  connectToWiFi(ssid, password);
+  // Connect to WiFi using WiFiManager
+  WiFiManager wm;
+  if (!wm.autoConnect("AutoConnectAP")) { // Starts an access point with SSID "AutoConnectAP"
+    Serial.println("Failed to connect and hit timeout. Going to deep sleep.");
+    goToDeepSleep();
+  }
+  // Successfully connected
+  Serial.println("Connected to WiFi.");
+
+  // Check for OTA updates if connected
   if (WiFi.status() == WL_CONNECTED) {
     checkForUpdate();
   } else {
