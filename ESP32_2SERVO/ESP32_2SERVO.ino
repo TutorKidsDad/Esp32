@@ -6,7 +6,7 @@ Servo myservo2;
 
 // Pin assignments for the two servos
 int servo1Pin = 13;
-int servo2Pin = 12;
+int servo2Pin = 14;
 
 // Movement variables
 int pos1 = 0;  // Position for servo 1
