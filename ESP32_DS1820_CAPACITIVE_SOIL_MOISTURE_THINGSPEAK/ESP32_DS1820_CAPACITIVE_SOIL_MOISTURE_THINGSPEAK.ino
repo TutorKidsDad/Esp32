@@ -9,6 +9,7 @@
 #include <Arduino.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <WiFiManager.h> // Include WiFiManager library
 
 // Define GPIO pin for DS18B20 sensor
 #define ONE_WIRE_BUS 4 // GPIO pin for DS18B20 on ESP32 (Change if necessary)
@@ -20,8 +21,6 @@ DallasTemperature DS18B20(&oneWire);
 
 // ThingSpeak API settings
 String apiKey = "";  // Enter your Write API key from ThingSpeak
-const char *ssid = "OnlineTPS";  // WiFi SSID
-const char *pass = "TPS@462014"; // WiFi Password
 const char* server = "api.thingspeak.com";  // ThingSpeak server
 
 // Soil moisture sensor pin
@@ -33,17 +32,18 @@ WiFiClient client;
 // Track the time of the last data upload
 unsigned long lastUploadTime = 0;
 
-// Function to connect to WiFi
+// Function to connect to WiFi using WiFiManager
 void connectWiFi() {
-  WiFi.begin(ssid, pass);
-  Serial.print("Connecting to WiFi");
-
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
+  WiFiManager wifiManager;
+  // Uncomment the next line to reset saved settings
+  // wifiManager.resetSettings();
+  
+  // Start the WiFiManager, this will create a captive portal for Wi-Fi configuration
+  if (!wifiManager.autoConnect("AutoConnectAP")) {
+    Serial.println("Failed to connect, check credentials");
+    // You can handle failure here, e.g., enter deep sleep or restart
+    ESP.restart();  // Restart if connection fails
   }
-
-  Serial.println("");
   Serial.println("WiFi connected");
 }
 

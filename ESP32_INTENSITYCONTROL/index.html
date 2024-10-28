@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ESP Web Server</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    h2 {
+      color: #003249;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.5rem;
+      color: #333;
+    }
+    .slider-container {
+      margin: 20px;
+    }
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 15px;
+      border-radius: 5px;
+      background: #FFD65C;
+      outline: none;
+      transition: opacity .2s;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      background: #003249;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      background: #003249;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+    .value-display {
+      font-size: 1.8rem;
+      color: #003249;
+      margin-top: 20px;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>ESP32 PWM Slider Control</h2>
+    <p>Adjust the slider to change the PWM value</p>
+    <div class="slider-container">
+      <input type="range" onchange="updateSliderPWM(this)" id="pwmSlider" min="0" max="255" value="%SLIDERVALUE%" class="slider">
+    </div>
+    <p class="value-display">PWM Value: <span id="textSliderValue">%SLIDERVALUE%</span></p>
+  </div>
+
+  <div class="footer">
+    <p>ESP32 Web Server PWM Control</p>
+  </div>
+
+  <script>
+    function updateSliderPWM(element) {
+      var sliderValue = document.getElementById("pwmSlider").value;
+      document.getElementById("textSliderValue").innerHTML = sliderValue;
+      console.log(sliderValue);
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", "/slider?value="+sliderValue, true);
+      xhr.send();
+    }
+  </script>
+</body>
+</html>
+

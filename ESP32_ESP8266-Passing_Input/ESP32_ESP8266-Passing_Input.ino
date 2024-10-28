@@ -1,4 +1,5 @@
 #include <Arduino.h>
+#include <WiFiManager.h>  // Include WiFiManager
 #ifdef ESP32
   #include <WiFi.h>
   #include <AsyncTCP.h>
@@ -10,9 +11,9 @@
 
 AsyncWebServer server(80);
 
-// REPLACE WITH YOUR NETWORK CREDENTIALS
-const char* ssid = "";
-const char* password = "";
+// Removed the direct ssid and password assignment
+// const char* ssid = "";
+// const char* password = "";
 
 const char* TEXT_INPUT1 = "HTML_STR_INPUT1"; // String type input
 const char* TEXT_INPUT2 = "HTML_INT_INPUT2"; // Integer type input
@@ -99,15 +100,13 @@ void notFound(AsyncWebServerRequest *request) {
 
 void setup() {
   Serial.begin(115200);
-  WiFi.mode(WIFI_STA);
-  WiFi.begin(ssid, password);
   
-  // Wait for connection to Wi-Fi network
-  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("WiFi Failed!");
-    return;
-  }
+  // Initialize WiFiManager
+  WiFiManager wifiManager;
   
+  // Automatically connect or open the configuration portal
+  wifiManager.autoConnect("ESP32-Access-Point");  // Set your access point name
+
   // Output IP address once connected
   Serial.println();
   Serial.print("IP Address: ");

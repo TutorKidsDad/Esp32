@@ -50,7 +50,7 @@ This project is an IoT-based system for monitoring soil moisture and temperature
 
 4. **Upload Code**:
    - Open the provided `.ino` code in the Arduino IDE.
-   - Replace the WiFi credentials and ThingSpeak API key in the code.
+   - WiFi credentials via wifimanager // in older code- Replace the WiFi credentials and ThingSpeak API key in the code.
    - Choose the correct board (ESP32 or ESP8266) and upload the code.
 
 5. **Monitor Data**:
