@@ -186,6 +186,7 @@ void setup() {
   WiFiManager wm;
   if (!wm.autoConnect("AutoConnectAP")) {
     Serial.println("Failed to connect or hit timeout");
+      delay(5000);
     ESP.restart();
   }
   Serial.println("Connected to Wi-Fi");
@@ -232,6 +233,7 @@ void setup() {
   });
 
   server.begin();
+  delay(100);
 }
 
 void loop() {
@@ -249,7 +251,7 @@ void loop() {
   }
 
   int reading2 = digitalRead(switch2);
-  if (reading2 != last_switch_2_status) {
+  if (reading2 != last_switch_2_status) { 
     lastDebounceTime = millis();
   }
   if ((millis() - lastDebounceTime) > debounceDelay) {
