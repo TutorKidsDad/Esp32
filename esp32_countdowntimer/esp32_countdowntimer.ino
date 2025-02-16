@@ -17,6 +17,7 @@ LiquidCrystal_I2C lcd(0x27, 16, 2);
 AsyncWebServer server(80); // Create AsyncWebServer object on port 80
 
 void setup() {
+  Serial.begin(115200);
   pinMode(BUZZER_PIN, OUTPUT);
   pinMode(UP_BUTTON, INPUT_PULLUP);
   pinMode(DOWN_BUTTON, INPUT_PULLUP);
