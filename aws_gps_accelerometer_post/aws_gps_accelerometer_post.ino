@@ -18,7 +18,6 @@
 //Enter values in secrets.h ▼
 #include "secrets.h"
 
-
 #if !(ARDUINOJSON_VERSION_MAJOR == 6 and ARDUINOJSON_VERSION_MINOR >= 7)
 #error "Install ArduinoJson v6.7.0-beta or higher"
 #endif
@@ -47,8 +46,6 @@ SoftwareSerial ss(RXPin, TXPin);
 
 /* Assign a unique ID to this sensor at the same time */
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345);
-
-
 
 #ifdef USE_SUMMER_TIME_DST
 uint8_t DST = 1;
@@ -292,10 +289,8 @@ void setup()
  
 
  Serial.println("");
-
   
 }
-
 
 void displayInfo()
 {
@@ -354,11 +349,6 @@ Serial.print("Speed: ");Serial.println(gps.speed.kmph()); // Speed in kilometers
   Serial.println();
 }
 
-
-
-
-
-
 ///////////////////////////////////////
 void loop()
 {
@@ -379,16 +369,11 @@ accel.getEvent(&event);
 xAccl=event.acceleration.x;
 yAccl=event.acceleration.y;
 zAccl=event.acceleration.z;
-
-
  
  /* Display the results (acceleration is measured in m/s^2) */
 Serial.print("X: "); Serial.print(xAccl); Serial.print(" ");
  Serial.print("Y: "); Serial.print(yAccl); Serial.print(" ");
 Serial.print("Z: "); Serial.print(zAccl); Serial.print(" ");Serial.println("m/s^2 ");
- 
- 
-
      displayInfo();
        delay(100); 
       smartDelay(600);                                      // Run Procedure smartDelay  
@@ -401,7 +386,6 @@ Serial.print("Z: "); Serial.print(zAccl); Serial.print(" ");Serial.println("m/s^
   }*/
 ////////////////////////////
 
-    
     client.loop();
     if (millis() - lastMillis > 1000)
     {
@@ -410,7 +394,6 @@ Serial.print("Z: "); Serial.print(zAccl); Serial.print(" ");Serial.println("m/s^
     }
   }
 }
-
 
 ///////////////////////////////////////////////////////////
 static void smartDelay(unsigned long ms)                // This custom version of delay() ensures that the gps object is being "fed".
